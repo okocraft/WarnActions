@@ -1,0 +1,7 @@
+auto-punishments:
+  1:
+    type: "KICK"
+    reason: "You are warned and kicked. Reason: %REASON%"
+
+auto-commands:
+  1: "alert %PLAYER% is warned (reason: %REASON%)"
