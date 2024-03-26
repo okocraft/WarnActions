@@ -97,7 +97,7 @@
             </resource>
         </resources>
 
-        <finalName>${project.name}-${project.version}</finalName>
+        <finalName>${project.name}-${project.version}-original</finalName>
 
         <plugins>
             <plugin>
@@ -125,6 +125,7 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.5.2</version>
                 <configuration>
+                    <finalName>${project.name}-${project.version}</finalName>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
