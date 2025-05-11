@@ -10,24 +10,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public record WarnActionConfig(
-        Map<Integer, WarnAction.AdditionalPunishment> autoPunishment,
-        Map<Integer, WarnAction.ConsoleCommand> autoCommand
+        Map<Integer, WarnAction.AdditionalPunishment> autoPunishments,
+        Map<Integer, WarnAction.ConsoleCommand> autoCommands
 ) {
 
     public static Codec<WarnActionConfig> CODEC = ObjectCodec.create(
             WarnActionConfig::new,
-            Codec.INT.toMapCodecAsKey(WarnAction.AdditionalPunishment.CODEC).toFieldCodec("autoPunishment").defaultValue(Map.of()).optional(WarnActionConfig::autoPunishment),
-            Codec.INT.toMapCodecAsKey(WarnAction.ConsoleCommand.CODEC).toFieldCodec("autoCommand").defaultValue(Map.of()).optional(WarnActionConfig::autoCommand)
+            Codec.INT.toMapCodecAsKey(WarnAction.AdditionalPunishment.CODEC).toFieldCodec("auto-punishments").defaultValue(Map.of()).optional(WarnActionConfig::autoPunishments),
+            Codec.INT.toMapCodecAsKey(WarnAction.ConsoleCommand.CODEC).toFieldCodec("auto-commands").defaultValue(Map.of()).optional(WarnActionConfig::autoCommands)
     );
 
     public Map<Integer, WarnAction[]> toMap() {
         var map = new HashMap<Integer, List<WarnAction>>();
 
-        for (var entry : this.autoPunishment.entrySet()) {
+        for (var entry : this.autoPunishments.entrySet()) {
             map.computeIfAbsent(entry.getKey(), ignored -> new ArrayList<>()).add(entry.getValue());
         }
 
-        for (var entry : this.autoCommand.entrySet()) {
+        for (var entry : this.autoCommands.entrySet()) {
             map.computeIfAbsent(entry.getKey(), ignored -> new ArrayList<>()).add(entry.getValue());
         }
 
