@@ -1,9 +1,5 @@
 package net.okocraft.warnactions;
 
-import com.github.siroshun09.configapi.core.serialization.key.KeyGenerator;
-import com.github.siroshun09.configapi.core.serialization.record.RecordDeserializer;
-import com.github.siroshun09.configapi.core.util.ResourceUtils;
-import com.github.siroshun09.configapi.format.yaml.YamlFormat;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.event.PostOrder;
@@ -12,6 +8,9 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import dev.siroshun.codec4j.api.error.DecodeError;
+import dev.siroshun.codec4j.io.yaml.YamlIO;
+import dev.siroshun.jfun.result.Result;
 import net.kyori.adventure.text.Component;
 import org.slf4j.Logger;
 import space.arim.libertybans.api.LibertyBans;
@@ -21,10 +20,12 @@ import space.arim.omnibus.events.ListenerPriorities;
 import space.arim.omnibus.events.RegisteredListener;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class WarnActionsPlugin {
 
@@ -106,15 +107,19 @@ public class WarnActionsPlugin {
         }
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     private WarnActionConfig readWarnActions() throws IOException {
         var path = this.dataDirectory.resolve("config.yml");
-        ResourceUtils.copyFromClassLoaderIfNotExists(this.getClass().getClassLoader(), "config.yml", path);
+        if (!Files.isRegularFile(path)) {
+            try (var in = this.getClass().getClassLoader().getResourceAsStream("config.yml")) {
+                Files.copy(Objects.requireNonNull(in), path);
+            }
+        }
 
-        return RecordDeserializer.builder(WarnActionConfig.class)
-                .keyGenerator(KeyGenerator.CAMEL_TO_KEBAB)
-                .build()
-                .deserialize(YamlFormat.DEFAULT.load(path));
+        Result<WarnActionConfig, DecodeError> result = YamlIO.DEFAULT.decodeFrom(path, WarnActionConfig.CODEC);
+        if (result.isFailure()) {
+            throw new IOException(result.unwrapError().toString());
+        }
+        return result.unwrap();
     }
 
     private class ReloadCommand implements SimpleCommand {

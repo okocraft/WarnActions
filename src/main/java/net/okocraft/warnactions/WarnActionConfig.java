@@ -1,6 +1,7 @@
 package net.okocraft.warnactions;
 
-import com.github.siroshun09.configapi.core.serialization.annotation.MapType;
+import dev.siroshun.codec4j.api.codec.Codec;
+import dev.siroshun.codec4j.api.codec.object.ObjectCodec;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,9 +10,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public record WarnActionConfig(
-        @MapType(key = Integer.class, value = WarnAction.AdditionalPunishment.class) Map<Integer, WarnAction.AdditionalPunishment> autoPunishment,
-        @MapType(key = Integer.class, value = WarnAction.ConsoleCommand.class) Map<Integer, WarnAction.ConsoleCommand> autoCommand
+        Map<Integer, WarnAction.AdditionalPunishment> autoPunishment,
+        Map<Integer, WarnAction.ConsoleCommand> autoCommand
 ) {
+
+    public static Codec<WarnActionConfig> CODEC = ObjectCodec.create(
+            WarnActionConfig::new,
+            Codec.INT.toMapCodecAsKey(WarnAction.AdditionalPunishment.CODEC).toFieldCodec("autoPunishment").defaultValue(Map.of()).optional(WarnActionConfig::autoPunishment),
+            Codec.INT.toMapCodecAsKey(WarnAction.ConsoleCommand.CODEC).toFieldCodec("autoCommand").defaultValue(Map.of()).optional(WarnActionConfig::autoCommand)
+    );
 
     public Map<Integer, WarnAction[]> toMap() {
         var map = new HashMap<Integer, List<WarnAction>>();
