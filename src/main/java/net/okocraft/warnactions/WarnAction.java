@@ -21,7 +21,7 @@ public sealed interface WarnAction permits WarnAction.AdditionalPunishment, Warn
                             }
                         }
                 ).toFieldCodec("type").required(AdditionalPunishment::type),
-                Codec.STRING.toFieldCodec("duration").required(AdditionalPunishment::duration),
+                Codec.STRING.toFieldCodec("duration").defaultValue("").optional(AdditionalPunishment::duration),
                 Codec.STRING.toFieldCodec("reason").required(AdditionalPunishment::reason)
         );
 
