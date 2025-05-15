@@ -73,7 +73,7 @@
         <dependency>
             <groupId>dev.siroshun.codec4j</groupId>
             <artifactId>codec4j-io-yaml</artifactId>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
