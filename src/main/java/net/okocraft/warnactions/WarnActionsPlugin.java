@@ -45,7 +45,10 @@ public class WarnActionsPlugin {
 
     @Subscribe
     public void onEnable(ProxyInitializeEvent ignored) {
-        this.proxy.getCommandManager().register("wareload", new ReloadCommand());
+        this.proxy.getCommandManager().register(
+                this.proxy.getCommandManager().metaBuilder("wareload").build(),
+                new ReloadCommand()
+        );
 
         this.logger.info("Loading config.yml...");
 
