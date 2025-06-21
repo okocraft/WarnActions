@@ -1,7 +1,8 @@
 package net.okocraft.warnactions;
 
 import dev.siroshun.codec4j.api.codec.Codec;
-import dev.siroshun.codec4j.api.codec.object.ObjectCodec;
+import dev.siroshun.codec4j.api.decoder.Decoder;
+import dev.siroshun.codec4j.api.decoder.object.ObjectDecoder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,10 +15,10 @@ public record WarnActionConfig(
         Map<Integer, WarnAction.ConsoleCommand> autoCommands
 ) {
 
-    public static Codec<WarnActionConfig> CODEC = ObjectCodec.create(
+    public static Decoder<WarnActionConfig> DECODER = ObjectDecoder.create(
             WarnActionConfig::new,
-            Codec.INT.toMapCodecAsKey(WarnAction.AdditionalPunishment.CODEC).toFieldCodec("auto-punishments").defaultValue(Map.of()).optional(WarnActionConfig::autoPunishments),
-            Codec.INT.toMapCodecAsKey(WarnAction.ConsoleCommand.CODEC).toFieldCodec("auto-commands").defaultValue(Map.of()).optional(WarnActionConfig::autoCommands)
+            Codec.INT.toMapDecoderAsKey(WarnAction.AdditionalPunishment.DECODER).toOptionalFieldDecoder("auto-punishments", Map.of()),
+            Codec.INT.toMapDecoderAsKey(WarnAction.ConsoleCommand.DECODER).toOptionalFieldDecoder("auto-commands", Map.of())
     );
 
     public Map<Integer, WarnAction[]> toMap() {

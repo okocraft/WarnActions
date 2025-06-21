@@ -1,37 +1,29 @@
 package net.okocraft.warnactions;
 
 import dev.siroshun.codec4j.api.codec.Codec;
-import dev.siroshun.codec4j.api.codec.object.ObjectCodec;
-import dev.siroshun.jfun.result.Result;
+import dev.siroshun.codec4j.api.codec.EnumCodec;
+import dev.siroshun.codec4j.api.decoder.Decoder;
+import dev.siroshun.codec4j.api.decoder.object.ObjectDecoder;
 import space.arim.libertybans.api.PunishmentType;
 
 public sealed interface WarnAction permits WarnAction.AdditionalPunishment, WarnAction.ConsoleCommand {
 
     record AdditionalPunishment(PunishmentType type, String duration, String reason) implements WarnAction {
 
-        public static Codec<AdditionalPunishment> CODEC = ObjectCodec.create(
+        public static Decoder<AdditionalPunishment> DECODER = ObjectDecoder.create(
                 AdditionalPunishment::new,
-                Codec.STRING.flatXmap(
-                        type -> Result.success(type.name()),
-                        type -> {
-                            try {
-                                return Result.success(PunishmentType.valueOf(type));
-                            } catch (IllegalArgumentException e) {
-                                return Result.failure();
-                            }
-                        }
-                ).toFieldCodec("type").required(AdditionalPunishment::type),
-                Codec.STRING.toFieldCodec("duration").defaultValue("").optional(AdditionalPunishment::duration),
-                Codec.STRING.toFieldCodec("reason").required(AdditionalPunishment::reason)
+                EnumCodec.byName(PunishmentType.class).toRequiredFieldDecoder("type"),
+                Codec.STRING.toOptionalFieldDecoder("duration", ""),
+                Codec.STRING.toRequiredFieldDecoder("reason")
         );
 
     }
 
     record ConsoleCommand(String commandline) implements WarnAction {
 
-        public static Codec<ConsoleCommand> CODEC = ObjectCodec.create(
+        public static Decoder<ConsoleCommand> DECODER = ObjectDecoder.create(
                 ConsoleCommand::new,
-                Codec.STRING.toFieldCodec("commandline").required(ConsoleCommand::commandline)
+                Codec.STRING.toRequiredFieldDecoder("commandline")
         );
 
     }

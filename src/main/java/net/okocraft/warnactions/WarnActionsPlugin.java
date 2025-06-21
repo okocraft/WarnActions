@@ -110,7 +110,7 @@ public class WarnActionsPlugin {
             }
         }
 
-        Result<WarnActionConfig, DecodeError> result = YamlIO.DEFAULT.decodeFrom(path, WarnActionConfig.CODEC);
+        Result<WarnActionConfig, DecodeError> result = YamlIO.DEFAULT.decodeFrom(path, WarnActionConfig.DECODER);
         if (result.isFailure()) {
             throw new IOException(result.unwrapError().toString());
         }
