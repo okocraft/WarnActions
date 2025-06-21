@@ -97,7 +97,7 @@
             </resource>
         </resources>
 
-        <finalName>${project.name}-${project.version}-original</finalName>
+        <finalName>${project.name}-${project.version}</finalName>
 
         <plugins>
             <plugin>
@@ -125,7 +125,6 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.6.0</version>
                 <configuration>
-                    <finalName>${project.name}-${project.version}</finalName>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
@@ -134,7 +133,6 @@
                             </excludes>
                         </filter>
                     </filters>
-                    <shadedArtifactAttached>true</shadedArtifactAttached>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <minimizeJar>true</minimizeJar>
                     <relocations>
