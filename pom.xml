@@ -139,8 +139,12 @@
                     <minimizeJar>true</minimizeJar>
                     <relocations>
                         <relocation>
-                            <pattern>com.github.siroshun09.configapi</pattern>
-                            <shadedPattern>${project.groupId}.lib.configapi</shadedPattern>
+                            <pattern>dev.siroshun.codec4j</pattern>
+                            <shadedPattern>${project.groupId}.lib.codec4j</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>dev.siroshun.jfun</pattern>
+                            <shadedPattern>${project.groupId}.lib.jfun</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
