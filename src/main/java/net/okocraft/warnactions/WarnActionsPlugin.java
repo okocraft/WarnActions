@@ -2,7 +2,6 @@ package net.okocraft.warnactions;
 
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.SimpleCommand;
-import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
@@ -44,7 +43,7 @@ public class WarnActionsPlugin {
         this.dataDirectory = dataDirectory;
     }
 
-    @Subscribe(order = PostOrder.LAST)
+    @Subscribe
     public void onEnable(ProxyInitializeEvent ignored) {
         this.getProxy().getCommandManager().register("wareload", new ReloadCommand());
 
@@ -68,7 +67,7 @@ public class WarnActionsPlugin {
         this.getLogger().info("Successfully enabled!");
     }
 
-    @Subscribe(order = PostOrder.FIRST)
+    @Subscribe
     public void onDisable(ProxyShutdownEvent ignored) {
         this.getProxy().getCommandManager().unregister("pnreload");
 
