@@ -45,44 +45,40 @@ public class WarnActionsPlugin {
 
     @Subscribe
     public void onEnable(ProxyInitializeEvent ignored) {
-        this.getProxy().getCommandManager().register("wareload", new ReloadCommand());
+        this.proxy.getCommandManager().register("wareload", new ReloadCommand());
 
-        this.getLogger().info("Loading config.yml...");
+        this.logger.info("Loading config.yml...");
 
         Map<Integer, WarnAction[]> warnActionMap;
 
         try {
             warnActionMap = this.readWarnActions().toMap();
         } catch (IOException e) {
-            this.getLogger().error("Could not load config.yml", e);
+            this.logger.error("Could not load config.yml", e);
             return;
         }
 
-        this.getLogger().info("Loading LibertyBans API...");
+        this.logger.info("Loading LibertyBans API...");
         this.libertyBans = OmnibusProvider.getOmnibus().getRegistry().getProvider(LibertyBans.class).orElseThrow();
 
-        this.getLogger().info("Registering listeners...");
+        this.logger.info("Registering listeners...");
         this.registerListeners(warnActionMap);
 
-        this.getLogger().info("Successfully enabled!");
+        this.logger.info("Successfully enabled!");
     }
 
     @Subscribe
     public void onDisable(ProxyShutdownEvent ignored) {
-        this.getProxy().getCommandManager().unregister("pnreload");
+        this.proxy.getCommandManager().unregister("pnreload");
 
-        this.getLogger().info("Unregistering listeners...");
+        this.logger.info("Unregistering listeners...");
         this.unregisterListeners();
 
-        this.getLogger().info("Successfully disabled!");
+        this.logger.info("Successfully disabled!");
     }
 
     public ProxyServer getProxy() {
         return this.proxy;
-    }
-
-    public Logger getLogger() {
-        return this.logger;
     }
 
     public LibertyBans getLibertyBans() {
@@ -91,7 +87,7 @@ public class WarnActionsPlugin {
 
     private void registerListeners(Map<Integer, WarnAction[]> warnActionmap) {
         this.registeredListeners.add(
-                this.getLibertyBans().getOmnibus().getEventBus()
+                this.libertyBans.getOmnibus().getEventBus()
                         .registerListener(
                                 PostPunishEvent.class,
                                 ListenerPriorities.NORMAL,
@@ -102,7 +98,7 @@ public class WarnActionsPlugin {
 
     private void unregisterListeners() {
         if (this.libertyBans != null) {
-            this.registeredListeners.forEach(this.getLibertyBans().getOmnibus().getEventBus()::unregisterListener);
+            this.registeredListeners.forEach(this.libertyBans.getOmnibus().getEventBus()::unregisterListener);
         }
     }
 
@@ -133,7 +129,7 @@ public class WarnActionsPlugin {
             try {
                 warnActionMap = WarnActionsPlugin.this.readWarnActions().toMap();
             } catch (IOException e) {
-                WarnActionsPlugin.this.getLogger().error("Could not load config.yml", e);
+                WarnActionsPlugin.this.logger.error("Could not load config.yml", e);
                 sender.sendMessage(Component.text("Could not reload config.yml. Please check the console."));
                 return;
             }
