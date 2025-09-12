@@ -66,7 +66,7 @@
         <dependency>
             <groupId>space.arim.libertybans</groupId>
             <artifactId>bans-api</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.2</version>
             <scope>provided</scope>
         </dependency>
         <!-- Codec4J https://github.com/Siroshun09/Codec4J -->
