@@ -4,5 +4,15 @@
     'github>okocraft/renovate-config//github-actions/renovate.json5',
     'github>okocraft/renovate-config//java/gradle/renovate.json5',
     'github>okocraft/renovate-config//java/ignores/papermc/renovate.json5'
+  ],
+  packageRules: [
+    {
+      matchPackageNames: [
+        '/space\\.arim\\.libertybans:bans-api/'
+      ],
+      registryUrls: [
+        'https://mvn-repo.arim.space/affero-gpl3'
+      ],
+    }
   ]
 }
