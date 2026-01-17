@@ -1,8 +1,8 @@
 {
   "id": "warnactions",
   "name": "WarnActions",
-  "version": "${project.version}",
-  "description": "${project.description}",
+  "version": "${projectVersion}",
+  "description": "A Velocity plugin that executes additional actions when the player is warned",
   "authors": [
     "Siroshun09"
   ],
