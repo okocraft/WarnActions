@@ -1,5 +1,5 @@
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/okocraft/WarnActions)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/okocraft/WarnActions/maven.yml?branch=main)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/okocraft/WarnActions/gradle.yml?branch=main)
 ![GitHub](https://img.shields.io/github/license/okocraft/WarnActions)
 
 # WarnActions
@@ -23,4 +23,4 @@ auto-commands: # Commands that are executed after warn
 
 This project is under the Apache License version 2.0. Please see [LICENSE](LICENSE) for more info.
 
-Copyright © 2023-2025, OKOCRAFT and Siroshun09
+Copyright © 2023-2026, OKOCRAFT and Siroshun09
