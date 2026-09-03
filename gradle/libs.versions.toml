@@ -1,6 +1,6 @@
 [versions]
 
-velocity = "4.1.0"
+velocity = "4.1.1"
 libertybans = "1.1.4"
 
 codec4j = "0.2.0-beta.6"
